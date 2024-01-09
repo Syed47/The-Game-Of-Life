@@ -1,32 +1,25 @@
 #include "Board.h"
 
-Board::Board(unsigned int rows, unsigned int cols) : _rows(rows), _cols(cols) {
-    _map = (int**) malloc(sizeof(int*) * _rows);
-    for (int i = 0; i < _rows; ++i) {
-        _map[i] = (int*) malloc(sizeof(int) * _cols);
-    }
-}
+Board::Board(unsigned int rows, unsigned int cols) : 
+    _rows(rows), 
+    _cols(cols),
+    _map(rows, std::vector<int>(cols)) { }
 
-Board::Board(Board& other) {
-    _map = (int**) malloc(sizeof(int*) * other.get_rows());
-    for (int i = 0; i < other.get_rows(); ++i) {
-        _map[i] = (int*) malloc(sizeof(int) * other.get_cols());
-    }
-}
 
-Board::~Board() {
-    for (int i = 0; i < _rows; ++i) {
-        free(_map[i]);
-    }
-    free(_map);
-}
+Board::Board(Board& other) : 
+    _rows(other.get_rows()), 
+    _cols(other.get_cols()), 
+    _map(other._map) { }
+
+
+Board::~Board() { }
 
 void Board::populate(const char* initial) {
     int ptr = 0, row = 0, col = 0;
     char c;
     while ((c = initial[ptr++]) != '\0') {
         if (c == '0') {
-            _map[row][col++] = 0;
+           _map[row][col++] = 0;
         } else if (c == '1') {
             _map[row][col++] = 1;
         } else if (c == '\n') {
@@ -40,14 +33,14 @@ void Board::set(int row, int col, int value) {
 }
 
 void Board::show() {
-    printf("-----------------\n");
-    for (int i = 0; i < _rows; ++i) {
-        for (int j = 0; j < _cols; ++j) {
-            printf("%d ", _map[i][j]);
+    std::cout << "-----------------" << std::endl;
+    for (std::vector<std::vector<int>>::iterator i = _map.begin(); i < _map.end(); i++) {
+        for (std::vector<int>::iterator j = (*i).begin(); j != (*i).end(); j++) {
+            std::cout << " " << *j;
         }
-        printf("\n");
+        std::cout << std::endl;
     }
-    printf("-----------------\n");
+    std::cout << "-----------------" << std::endl;
 }
 
 int Board::get(int i, int j) { return _map[i][j]; }

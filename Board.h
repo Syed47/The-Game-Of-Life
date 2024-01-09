@@ -1,12 +1,12 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include <cstdio>
-#include <cstdlib>
+#include <iostream>
+#include <vector>
 
 class Board {
     int _rows, _cols;
-    int** _map;
+    std::vector<std::vector<int>> _map;
 
 public:
     Board(unsigned int rows, unsigned int cols);
