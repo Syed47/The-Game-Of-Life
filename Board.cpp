@@ -14,7 +14,7 @@ Board::Board(Board& other) :
 
 Board::~Board() { }
 
-void Board::populate(const char* initial) {
+void Board::populate(std::string& initial) {
     int ptr = 0, row = 0, col = 0;
     char c;
     while ((c = initial[ptr++]) != '\0') {

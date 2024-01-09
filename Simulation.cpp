@@ -1,6 +1,6 @@
 #include "Simulation.h"
 
-Simulation::Simulation(int rows, int cols, int max_gens, const char* initial) : 
+Simulation::Simulation(int rows, int cols, int max_gens, std::string& initial) : 
     _max_gens(max_gens), 
     _initial(initial),
     _current(Board(rows, cols)),

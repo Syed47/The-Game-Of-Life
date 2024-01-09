@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 
 class Board {
     int _rows, _cols;
@@ -13,7 +14,7 @@ public:
     Board(Board& other);
     ~Board();
 
-    void populate(const char* initial);
+    void populate(std::string& initial);
     void set(int row, int col, int value);
     void show();
     int get(int i, int j); 
