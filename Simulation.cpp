@@ -4,33 +4,33 @@ Simulation::Simulation(int rows, int cols, int max_gens, std::string& initial) :
     _max_gens(max_gens), 
     _initial(initial),
     _current(Board(rows, cols)),
-    _next(Board(rows, cols)) { }
+    _next(Board(rows, cols)) { 
+        _current.populate(_initial);
+    }
 
 Simulation::~Simulation() { }
 
-void Simulation::run() {
-    int dead = 0, live = 1, gen = _max_gens;
-    _current.populate(_initial);
-    std::cout << "Population" << std::endl;
-    _current.show();
-    while (gen-- != 0) {
-        for (int i = 0; i < _current.get_rows(); ++i) {
-            for (int j = 0; j < _current.get_cols(); ++j) {
-                int cell = _current.get(i, j);
-                int npeers = peers(i, j);
-                if (cell == dead) {
-                    if (npeers == 3) _next.set(i, j, live);
-                } else {
-                    _next.set(i, j, ((npeers == 2 || npeers == 3) ? live : dead));
-                }
+bool Simulation::isOver() {
+    return _max_gens == 0;
+}
+
+Board& Simulation::next() {
+    int dead = 0, live = 1;
+    for (int i = 0; i < _current.get_rows(); ++i) {
+        for (int j = 0; j < _current.get_cols(); ++j) {
+            int cell = _current.get(i, j);
+            int npeers = peers(i, j);
+            if (cell == dead) {
+                if (npeers == 3) _next.set(i, j, live);
+            } else {
+                _next.set(i, j, ((npeers == 2 || npeers == 3) ? live : dead));
             }
         }
-        _current = Board(_next);
-        _next = Board(_current.get_rows(), _current.get_cols());
-
-        std::cout << "Generation: " << (_max_gens - gen) << std::endl;
-        _current.show();
     }
+    _current = Board(_next);
+    _next = Board(_current.get_rows(), _current.get_cols());
+    _max_gens--;
+    return _current;
 }
 
 int Simulation::peers(int x, int y) {

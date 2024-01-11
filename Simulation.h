@@ -14,8 +14,9 @@ public:
     Simulation(int rows, int cols, int max_gens, std::string& initial);
     ~Simulation();
 
-    void run();
     int peers(int x, int y);
+    bool isOver();
+    Board& next();
     Board& get_board();
 };
 
