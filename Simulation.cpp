@@ -2,7 +2,11 @@
 
 Simulation::Simulation(int rows, int cols, int max_gens, std::string& initial) : 
     _max_gens(max_gens), 
+    _generation(0),
+    _evolution(true),
+    _stuck(false),
     _initial(initial),
+    _previous(Board(rows, cols)),
     _current(Board(rows, cols)),
     _next(Board(rows, cols)) { 
         _current.populate(_initial);
@@ -11,7 +15,19 @@ Simulation::Simulation(int rows, int cols, int max_gens, std::string& initial) :
 Simulation::~Simulation() { }
 
 bool Simulation::isOver() {
-    return _max_gens == 0;
+    return _generation ==  _max_gens;
+}
+
+bool Simulation::isStuck() {
+    return _stuck;
+}
+
+int Simulation::generation() {
+    return _generation;
+}
+
+Board& Simulation::get_board() { 
+    return _current; 
 }
 
 Board& Simulation::next() {
@@ -27,9 +43,23 @@ Board& Simulation::next() {
             }
         }
     }
+
+    if (_evolution) {
+        _evolution = false;
+        _previous = Board(_current);
+    } else {
+        _evolution = true;
+    }
     _current = Board(_next);
+
+    if (_previous == _next) {
+        _stuck = true;
+        return _current;
+    } 
     _next = Board(_current.get_rows(), _current.get_cols());
-    _max_gens--;
+    if (!isStuck()) {
+        _generation++;
+    }
     return _current;
 }
 
@@ -51,5 +81,4 @@ int Simulation::peers(int x, int y) {
     return n - _current.get(x, y);
 }
 
-Board& Simulation::get_board() { return _current; }
 

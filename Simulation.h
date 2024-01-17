@@ -6,9 +6,11 @@
 #include "Board.h"
 
 class Simulation {
+    int _generation;
     int _max_gens;
+    bool _evolution, _stuck;
     std::string& _initial;
-    Board _current, _next;
+    Board _previous, _current, _next;
 
 public:
     Simulation(int rows, int cols, int max_gens, std::string& initial);
@@ -16,6 +18,8 @@ public:
 
     int peers(int x, int y);
     bool isOver();
+    bool isStuck();
+    int generation();
     Board& next();
     Board& get_board();
 };

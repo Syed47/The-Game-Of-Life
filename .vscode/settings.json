@@ -106,6 +106,14 @@
     "xlocnum": "cpp",
     "xloctime": "cpp",
     "xstring": "cpp",
-    "string": "cpp"
+    "string": "cpp",
+    "thread": "cpp",
+    "chrono": "cpp",
+    "forward_list": "cpp",
+    "iomanip": "cpp",
+    "optional": "cpp",
+    "ratio": "cpp",
+    "sstream": "cpp",
+    "stop_token": "cpp"
   }
 }

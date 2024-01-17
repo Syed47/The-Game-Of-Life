@@ -17,7 +17,8 @@ public:
     void populate(std::string& initial);
     void set(int row, int col, int value);
     void show();
-    int get(int i, int j); 
+    bool operator==(const Board& other);
+    int get(int i, int j) const; 
     int get_rows();
     int get_cols();
 };
